@@ -5,15 +5,20 @@
 
 package sim.gui;
 
-import sim.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
 
 public class ControlPanel extends JPanel implements ActionListener
 {
+	private JButton editButton;
 	private JButton stepButton;
 	private JButton resetButton;
 	private JButton runButton;
@@ -24,15 +29,26 @@ public class ControlPanel extends JPanel implements ActionListener
 	private SpinnerNumberModel numberModel;
 
 	private GUIListener listener;
+	
+	private SimFrame mSimFrame;
+	private String mFilePath;
 
-	public ControlPanel(GUIListener listener)
+	public ControlPanel(SimFrame simFrame, String filePath, GUIListener listener)
 	{
+		this.mSimFrame = simFrame;
+		this.mFilePath = filePath;
+		
 		this.listener = listener;
 
 //		setLayout(new BorderLayout());
 		setBorder(new TitledBorder("Simulation Controls"));
 
 		Dimension buttonSize = new Dimension(70,20);
+		
+		editButton = new JButton("Edit Code");
+		editButton.addActionListener(this);
+		editButton.setPreferredSize(buttonSize);
+		add(editButton);
 
 		stepButton = new JButton("Step");
 		stepButton.addActionListener(this);
@@ -80,6 +96,9 @@ public class ControlPanel extends JPanel implements ActionListener
 		{
 			if (runSelect.isSelected()) stepsSpinner.setEnabled(false);
 			else stepsSpinner.setEnabled(true);
+		}
+		else if (o == editButton) {
+			new SourceEditor(this.mSimFrame, this.mFilePath);
 		}
 	}
 

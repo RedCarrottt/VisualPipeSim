@@ -152,6 +152,11 @@ public class Processor
 		this.program = program;
 		reset();
 	}
+	
+	public void reset(Instruction[] program) {
+		this.program = program;
+		reset();
+	}
 
 	public void reset()
 	{

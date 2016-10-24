@@ -55,6 +55,7 @@ public class SourceViewer extends JPanel
 
 		ArrayList<LineExtents> lineExtentsList = new ArrayList<LineExtents>();
 
+		textArea.setText("");
 		try
 		{
 			int pos = 0;
@@ -82,7 +83,7 @@ public class SourceViewer extends JPanel
 				textArea.append(line);
 				pos += length;
 
-				srcLineNum ++;
+				srcLineNum++;
 			}
 		}
 		catch (FileNotFoundException fnfE) {}

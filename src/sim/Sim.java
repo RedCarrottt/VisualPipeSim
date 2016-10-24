@@ -40,10 +40,27 @@ public class Sim implements GUIListener, Runnable
 		processor = new Processor(program);
 		processor.reset();
 
-		simFrame = new SimFrame(program, processor, this, asmFile);
+		simFrame = new SimFrame(this, program, processor, this, asmFile);
 		simFrame.update(processor, true);
 	}
+	
+	public void reloadFile(String asmFilename) {
+		File asmFile = new File(asmFilename);
 
+		program = Assembler.assemble(asmFile, log, false);
+		if (program == null)
+		{
+			log.println("ERR: Sim: Could not create program");
+			System.exit(1);
+		}
+
+		processor = new Processor(program);
+		processor.reset();
+
+		simFrame = new SimFrame(this, program, processor, this, asmFile);
+		simFrame.update(processor, true);
+	}
+	
 	public void stepPressed()
 	{
 		if (running) return;
@@ -117,13 +134,7 @@ public class Sim implements GUIListener, Runnable
 
 
 	public static void main(String[] args)
-	{
-		if (args.length != 1)
-		{
-			System.err.println("Must specify assmbler file");
-			System.exit(1);
-		}
-		
-		new Sim(args[0]);
+	{	
+		new Sim("asmFiles/example.asm");
 	}
 }

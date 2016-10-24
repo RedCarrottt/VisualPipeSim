@@ -5,18 +5,28 @@
 
 package sim.gui;
 
-import sim.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.util.ArrayList;
 
-import java.io.*;
-import java.util.*;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.border.EmptyBorder;
+
+import sim.Instruction;
+import sim.Processor;
+import sim.Sim;
 
 public class SimFrame
 {
 	public enum State {RUNNING, NOT_RUNNING};
 
+	private JFrame thisFrame = null;
 	private RegisterFilePanel regFilePanel;
 	private ControlPanel controlPanel;
 	private ProgCounterPanel pcPanel;
@@ -29,12 +39,28 @@ public class SimFrame
 	private ProcessorControls procControls;
 
 	private GUIListener listener;
+	
+	private Processor mProcessor;
+	private Sim mSim;
+	
+	public void reloadFile(String asmFilename) {
+		this.thisFrame.dispose();
+		this.mSim.reloadFile(asmFilename);
+	}
+	
+	public JFrame getJFrame() {
+		return this.thisFrame;
+	}
 
-	public SimFrame(Instruction[] program, Processor processor, GUIListener listener, File asmFile)
+	public SimFrame(Sim sim, Instruction[] program, Processor processor, GUIListener listener, File asmFile)
 	{
 		this.listener = listener;
+		
+		this.mSim = sim;
+		this.mProcessor = processor;
 
-		JFrame frame = new JFrame("Microprocessor Simulator (" + asmFile.getName() + ") - A.Greensted v0.4");
+		JFrame frame = this.thisFrame
+				= new JFrame("Microprocessor Simulator (" + asmFile.getName() + ") - A.Greensted v0.5 (Enhanced by RedCarrottt)");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		ArrayList<Image> imageList = new ArrayList<Image>();
@@ -50,7 +76,7 @@ public class SimFrame
 		pcPanel = new ProgCounterPanel();
 		regFilePanel = new RegisterFilePanel();
 		dataMemPanel = new DataMemoryPanel();
-		controlPanel = new ControlPanel(listener);
+		controlPanel = new ControlPanel(this, asmFile.getAbsolutePath(), listener);
 		signalsPanel = new VariablesPanel("sim.Processor$Signals", "Signals");
 		controlsPanel = new VariablesPanel("sim.Processor$Controls", "Controls");
 		sourceViewer = new SourceViewer(asmFile, program);
