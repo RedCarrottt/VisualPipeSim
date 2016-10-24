@@ -1,4 +1,4 @@
-# Visual ProcSim
+# VisualPipeSim (Visual Pipeline Simulator)
 ## Original Source
 This simulator is originally derived by [The Lab Book Pages](http://www.labbookpages.co.uk/teaching/upArch.html). [Gyeonghwan Hong](mailto:redcarrottt@gmail.com) updated it with source code editor.
 
