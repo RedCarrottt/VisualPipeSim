@@ -1,10 +1,10 @@
+# Original Source
+This simulator is originally derived by [The Lab Book Pages](http://www.labbookpages.co.uk/teaching/upArch.html). [Gyeonghwan Hong](mailto:redcarrottt@gmail.com) updated it with source code editor.
+
 # How to Run
-java -cp class sim.Sim _asmFile_
+Just build and run with Eclipse.
 
-Where _asmFile_ is the assembler file. See files in **asmFiles** directory
-for examples.
-
-<img src="http://115.145.178.61/redcarrottt/ProcSim/raw/master/images/screenshot.png" />
+Input file is fixed as _asmFiles/example.asm_. You can modify this file for your purpose in the application.
 
 # Source Code
 ## sim/Processor.java
